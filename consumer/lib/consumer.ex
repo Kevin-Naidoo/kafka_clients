@@ -12,6 +12,7 @@ defmodule Consumer do
       :world
 
   """
+
   def hello do
     :world
   end
