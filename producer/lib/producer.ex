@@ -25,6 +25,19 @@ defmodule Producer do
 def publish(topic, _partition, key, message) do
   :brod.produce_sync(:kafka_client, topic, :hash,key, message)
 end
+
+def bulk_publish(topic, message, iterations) do
+
+  Enum.each(1..iterations, fn _ -> publish(topic,:partition,"",message) end)
+
+end
+
+def bulk_publish_async(topic, message, iterations) do
+  1..iterations
+  |> Enum.each(fn _ ->
+    Task.async(fn -> publish(topic, :partition, "", message) end)
+  end)
+end
   @doc """
   Hello world.
 
