@@ -6,8 +6,7 @@ defmodule Consumers.GroupSubscriberV2 do
     {:ok, []}
   end
 
-  def handle_message(message, state) do
-    IO.inspect(state)
+  def handle_message(message, _state) do
     IO.inspect(message, label: "message")
     {:ok, :commit, []}
   end
@@ -29,7 +28,7 @@ defmodule Consumers.GroupSubscriberV2 do
       group_config: group_config,
       consumer_config: [begin_offset: :latest]
     }
-  {:ok, pid} = :brod.start_link_group_subscriber_v2(config)
+  {:ok, _pid} = :brod.start_link_group_subscriber_v2(config)
   end
 
 
