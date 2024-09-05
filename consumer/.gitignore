@@ -27,3 +27,7 @@ consumer-*.tar
 
 # CSV files do not need to be put onto github
 *.csv
+
+*.sh
+
+*.log
