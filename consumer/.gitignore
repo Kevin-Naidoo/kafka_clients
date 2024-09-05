@@ -24,3 +24,6 @@ consumer-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# CSV files do not need to be put onto github
+*.csv
