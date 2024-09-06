@@ -1,4 +1,6 @@
 defmodule Consumers.GroupSubscriberV2 do
+
+  require Logger
   alias NimbleCSV.RFC4180, as: CSV
 
   @behaviour :brod_group_subscriber_v2
@@ -8,10 +10,12 @@ defmodule Consumers.GroupSubscriberV2 do
   end
 
   def handle_message(message, _state) do
+    Logger.info("Consuming messages")
     # Extract JSON charge record
     # gives list of tuples
     message_set = elem(message, 4)
     strip_message(message_set)
+    Logger.info("Consuming completed")
     {:ok, :commit, []}
   end
 
@@ -19,13 +23,8 @@ defmodule Consumers.GroupSubscriberV2 do
     Enum.each(list, fn x -> write_to_csv(Jason.decode(elem(x, 3))) end)
   end
 
-  def jason_decode(list) do
-    Enum.map(list, fn x -> x end)
-  end
-
   def write_to_csv(jason_decoded) do
     {:ok, x} = jason_decoded
-    IO.inspect(x)
 
     sanitized_row =
       Enum.map(x, fn
@@ -38,6 +37,7 @@ defmodule Consumers.GroupSubscriberV2 do
     File.open(:persistent_term.get(FILE_NAME), [:append], fn file ->
       IO.binwrite(file, CSV.dump_to_iodata([sanitized_row]))
     end)
+    Logger.info("..writing to #{:persistent_term.get(FILE_NAME)}")
   end
 
   def update_file_name do
