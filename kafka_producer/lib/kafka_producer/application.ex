@@ -5,21 +5,23 @@ defmodule KafkaProducer.Application do
 
   use Application
 
-  # defp poolboy_config do
-  #   [
-  #     name: {:local, :worker},
-  #     size: 5,
-  #     max_overflow: 2
-  #   ]
-  # end
+  defp poolboy_config do
+    [
+      name: {:local, :worker},
+      worker_module: KafkaProducerWorker,
+      size: 25,
+      max_overflow: 2
+    ]
+  end
 
   @impl true
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: KafkaProducer.Worker.start_link(arg)
       # {KafkaProducer.Worker, arg}
-      KafkaProducer,
+      #KafkaProducer,
       #:poolboy.child_spec(:worker, poolboy_config())
+      :poolboy.child_spec(:worker, poolboy_config())
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

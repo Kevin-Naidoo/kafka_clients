@@ -1,5 +1,6 @@
 
 defmodule Producer do
+  require Logger
   @moduledoc """
   Documentation for `Producer`.
   """
@@ -37,6 +38,7 @@ def bulk_publish_async(topic, message, iterations) do
   |> Enum.each(fn _ ->
     Task.async(fn -> publish(topic, :partition, "", message) end)
   end)
+  Logger.info("Done")
 end
   @doc """
   Hello world.
