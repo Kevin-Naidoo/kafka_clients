@@ -9,8 +9,8 @@ defmodule KafkaProducer.Application do
     [
       name: {:local, :worker},
       worker_module: KafkaProducerWorker,
-      size: 25,
-      max_overflow: 2
+      size: 2,
+      max_overflow: 0
     ]
   end
 

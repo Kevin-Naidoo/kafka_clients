@@ -1,7 +1,7 @@
 defmodule KafkaProducerWorker do
   use GenServer
   require Logger
-  alias NimbleCSV.RFC4180, as: CSV
+ # alias NimbleCSV.RFC4180, as: CSV
 
   @moduledoc """
   Documentation for `KafkaProducer`.

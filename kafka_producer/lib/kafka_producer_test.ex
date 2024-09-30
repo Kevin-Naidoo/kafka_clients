@@ -24,11 +24,15 @@ defmodule KafkaProducerTest do
   end
 
   # For Testing
-  def produce_records(iterations) do
+  def produce_records(iterations, delay_in_micros) do
     1..iterations
-    |> Enum.each(fn _ -> async_cast_process_charge(charge_payload()) end)
+    |> Enum.each(fn i ->
+      async_cast_process_charge(charge_payload())
+      IO.puts("Message #{i} sent")
+      :timer.sleep(delay_in_micros)
 
-    Logger.info("Done with #{iterations} messages published")
+    end)
+
   end
 
   def process_charge(charge), do: GenServer.cast(__MODULE__, {:process_charge, charge})
